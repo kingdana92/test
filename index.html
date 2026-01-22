@@ -33,9 +33,9 @@
     <script>
         document.getElementById('place-order-button').addEventListener('click', () => {
             
-            const MMPayApp = new MMPaySDK('pk_live_f1534b38a7b37ea2b312fc8064bbec356a9133aae9e290e3eff4ac9707d3cbd2', {
+            const MMPayApp = new MMPaySDK('pk_test_28dd60d5e2c877dcf2a01819c9c877536a31e0ae07a90d2163c2943700bba86b', {
                 baseUrl:  'https://ezapi.myanmyanpay.com', // Sign up with us and ask our team
-                environment:  'pay',
+                environment:  'sandbox',
                 merchantName:  'LIT21',
             });
             MMPayApp.showPaymentModal({
@@ -50,4 +50,5 @@
         });
     </script>
 </body>
+
 </html>
