@@ -10,9 +10,10 @@
     <style>
         body { font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; padding: 2rem; background-color: #f9f9f9; }
         .checkout-container { max-width: 500px; margin: 0 auto; background: white; padding: 30px; border-radius: 8px; box-shadow: 0 2px 10px rgba(0,0,0,0.1); }
-        #mmp-checkout-widget { margin-top: 20px; border: 1px dashed #ddd; padding: 15px; min-height: 150px; border-radius: 4px; display: flex; align-items: center; justify-content: center; background: #fafafa; }
+        
         .btn { width: 100%; padding: 12px; background-color: #28a745; color: white; border: none; cursor: pointer; font-size: 16px; border-radius: 4px; transition: background 0.3s; }
         .btn:hover { background-color: #218838; }
+        
         h1 { margin-top: 0; text-align: center; color: #333; }
         .price { text-align: center; font-size: 1.5rem; font-weight: bold; margin-bottom: 20px; color: #555; }
     </style>
@@ -24,38 +25,30 @@
         <div class="price">2,000 MMK</div>
         
         <button id="place-order-button" class="btn">Pay Now</button>
-
-        <div id="mmp-checkout-widget">
-            <span style="color:#aaa">Payment details will appear here...</span>
-        </div>
     </div>
 
     <script>
         document.getElementById('place-order-button').addEventListener('click', () => {
             
+            // Initialize the SDK
             const MMPayApp = new MMPaySDK('pk_live_22c1645968c35c585d6fd56c5aad70eb4fb09b6bb97e33200d2f3932ff453989', {
-                baseUrl:  'https://ezapi.myanmyanpay.com', // Sign up with us and ask our team
+                baseUrl:  'https://ezapi.myanmyanpay.com', 
                 environment:  'pay',
                 merchantName:  'LIT21',
             });
+
+            // Trigger the Modal
             MMPayApp.showPaymentModal({
                 amount: 2000,
                 orderId: 'ORD-' + new Date().getTime(),
-                callbackUrl: 'https://yoursite.com/confirmation' // Optional [Default callback input in our console will be called if no specified]
+                callbackUrl: 'https://yoursite.com/confirmation' 
             }, (result) => {
                 if (result.success) {
-                    console.log('Redirect Some where');
+                    console.log('Payment Successful');
+                    // Handle success redirection or UI update here
                 }
             });
         });
     </script>
 </body>
-
 </html>
-
-
-
-
-
-
-
