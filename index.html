@@ -3,16 +3,18 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Dynamic Checkout</title>
+    <title>NotReplica | Secure Checkout</title>
     
     <script src="https://cdn.jsdelivr.net/npm/mmpay-browser-sdk@latest/dist/mmpay-sdk.js"></script>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
     
     <style>
         :root {
-            --primary-color: #4F46E5;
-            --primary-hover: #4338ca;
-            --bg-gradient: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            --primary-color: #2563eb; /* True Blue for Verification */
+            --primary-hover: #1d4ed8;
+            --bg-gradient: linear-gradient(135deg, #f3f4f6 0%, #d1d5db 100%); /* Clean, minimalistic, "studio" vibe */
+            --text-main: #111827;
+            --text-sub: #6b7280;
         }
 
         * { box-sizing: border-box; margin: 0; padding: 0; }
@@ -23,112 +25,143 @@
             display: flex; 
             align-items: center; 
             justify-content: center; 
-            background: var(--bg-gradient); 
+            background: #0f172a; /* Dark background to make the "Original" pop */
+            background-image: radial-gradient(at 0% 0%, hsla(253,16%,7%,1) 0, transparent 50%), radial-gradient(at 50% 0%, hsla(225,39%,30%,1) 0, transparent 50%), radial-gradient(at 100% 0%, hsla(339,49%,30%,1) 0, transparent 50%);
             padding: 20px;
         }
 
         .checkout-card { 
             width: 100%;
-            max-width: 400px; 
+            max-width: 420px; 
             background: rgba(255, 255, 255, 0.95); 
-            backdrop-filter: blur(10px);
+            backdrop-filter: blur(20px);
             padding: 40px 30px; 
             border-radius: 24px; 
-            box-shadow: 0 20px 50px rgba(0,0,0,0.15); 
+            box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.5); 
             text-align: center;
+            border: 1px solid rgba(255,255,255,0.1);
+            position: relative;
+            overflow: hidden;
+        }
+
+        /* "The Original" Tag */
+        .brand-pill {
+            display: inline-block;
+            background: #e0e7ff;
+            color: var(--primary-color);
+            font-size: 10px;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            padding: 4px 12px;
+            border-radius: 20px;
+            margin-bottom: 20px;
         }
 
         .icon-wrapper {
-            width: 60px;
-            height: 60px;
-            background: #e0e7ff;
+            width: 64px;
+            height: 64px;
+            background: var(--primary-color);
             border-radius: 50%;
             display: flex;
             align-items: center;
             justify-content: center;
-            margin: 0 auto 20px;
-            color: var(--primary-color);
+            margin: 0 auto 15px;
+            color: white;
+            box-shadow: 0 10px 15px -3px rgba(37, 99, 235, 0.3);
         }
 
-        h1 { font-size: 1.5rem; color: #1f2937; margin-bottom: 8px; }
-        .description { color: #6b7280; font-size: 0.95rem; margin-bottom: 30px; }
+        h1 { 
+            font-size: 1.5rem; 
+            color: var(--text-main); 
+            margin-bottom: 8px; 
+            font-weight: 700;
+            letter-spacing: -0.5px;
+        }
+        
+        .description { 
+            color: var(--text-sub); 
+            font-size: 0.95rem; 
+            margin-bottom: 30px; 
+            line-height: 1.5;
+        }
 
         /* Input Styling */
         .amount-wrapper {
             display: flex;
-            align-items: baseline;
+            align-items: center;
             justify-content: center;
             margin-bottom: 30px;
-            gap: 5px;
-            position: relative;
+            background: #f9fafb;
+            padding: 20px;
+            border-radius: 16px;
+            border: 2px solid #e5e7eb;
+            transition: border-color 0.2s;
         }
 
-        .currency-symbol {
-            font-size: 2.5rem;
-            font-weight: 700;
-            color: #374151;
+        .amount-wrapper:focus-within {
+            border-color: var(--primary-color);
         }
 
         #amount-input {
-            font-size: 3.5rem;
+            font-size: 2.5rem;
             font-weight: 700;
-            color: #111827;
-            width: 180px;
+            color: var(--text-main);
+            width: 140px;
             border: none;
             background: transparent;
-            text-align: center;
-            border-bottom: 2px dashed #cbd5e1;
+            text-align: right;
             outline: none;
-            padding-bottom: 5px;
-            transition: border-color 0.3s;
             font-family: 'Inter', sans-serif;
-        }
-
-        #amount-input:focus {
-            border-bottom-color: var(--primary-color);
         }
 
         /* Hide HTML5 number spinners */
         #amount-input::-webkit-inner-spin-button, 
-        #amount-input::-webkit-outer-spin-button { 
-            -webkit-appearance: none; 
-            margin: 0; 
-        }
+        #amount-input::-webkit-outer-spin-button { -webkit-appearance: none; margin: 0; }
 
         .currency-suffix {
             font-size: 1rem;
             font-weight: 600;
-            color: #6b7280;
+            color: var(--text-sub);
+            margin-left: 8px;
+            padding-top: 10px; /* visual alignment */
         }
 
         .btn { 
             width: 100%; 
-            padding: 16px; 
-            background-color: var(--primary-color); 
+            padding: 18px; 
+            background-color: var(--text-main); /* Black button for "Luxury/Authentic" feel */
             color: white; 
             border: none; 
             cursor: pointer; 
             font-size: 16px; 
             font-weight: 600; 
-            border-radius: 12px; 
+            border-radius: 14px; 
             transition: all 0.2s ease; 
-            box-shadow: 0 4px 6px rgba(79, 70, 229, 0.2);
         }
         
         .btn:hover { 
-            background-color: var(--primary-hover); 
+            background-color: #000; 
             transform: translateY(-2px);
-            box-shadow: 0 8px 12px rgba(79, 70, 229, 0.3);
+            box-shadow: 0 10px 20px rgba(0,0,0,0.2);
+        }
+        
+        .btn:disabled {
+            background-color: #9ca3af;
+            cursor: not-allowed;
+            transform: none;
         }
 
         .footer {
-            margin-top: 20px;
-            font-size: 12px;
+            margin-top: 25px;
+            font-size: 11px;
             color: #9ca3af;
             display: flex;
             align-items: center;
             justify-content: center;
             gap: 6px;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
         }
         
         .lock-icon { width: 12px; height: 12px; fill: currentColor; }
@@ -137,23 +170,25 @@
 <body>
 
     <div class="checkout-card">
+        <div class="brand-pill">Official Gateway</div>
+
         <div class="icon-wrapper">
-            <svg xmlns="http://www.w3.org/2000/svg" width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="5" width="20" height="14" rx="2" /><line x1="2" y1="10" x2="22" y2="10" /></svg>
+            <svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"></path><path d="M9 12l2 2 4-4"></path></svg>
         </div>
 
-        <h1>Enter Amount</h1>
-        <p class="description">How much would you like to top up?</p>
+        <h1>NotReplica Payment</h1>
+        <p class="description">Secure your original order. <br>Authenticity guaranteed.</p>
         
         <div class="amount-wrapper">
-            <input type="number" id="amount-input" value="2000" min="100">
+            <input type="number" id="amount-input" value="2000" min="100" placeholder="0">
             <span class="currency-suffix">MMK</span>
         </div>
         
-        <button id="place-order-button" class="btn">Pay Now</button>
+        <button id="place-order-button" class="btn">Verify & Pay</button>
 
         <div class="footer">
             <svg class="lock-icon" viewBox="0 0 24 24"><path d="M12 2C9.243 2 7 4.243 7 7v3H6a2 2 0 0 0-2 2v8a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2v-8a2 2 0 0 0-2-2h-1V7c0-2.757-2.243-5-5-5zm0 2c1.654 0 3 1.346 3 3v3H9V7c0-1.654 1.346-3 3-3zm0 10c1.103 0 2 .897 2 2s-.897 2-2 2-2-.897-2-2 .897-2 2-2z"/></svg>
-            Secured by MyanMyanPay
+            Encrypted & Verified
         </div>
     </div>
 
@@ -166,6 +201,8 @@
 
             // 2. Simple Validation
             if (!amountValue || amountValue <= 0) {
+                // Shake animation or alert could go here
+                amountInput.focus();
                 alert("Please enter a valid amount.");
                 return;
             }
@@ -177,17 +214,18 @@
             btn.disabled = true;
 
             // 4. Initialize SDK
+            // Note: Merchant name remains LIT21 based on your key, but the UI is branded for NotReplica
             const MMPayApp = new MMPaySDK('pk_live_22c1645968c35c585d6fd56c5aad70eb4fb09b6bb97e33200d2f3932ff453989', {
                 baseUrl:  'https://ezapi.myanmyanpay.com', 
                 environment:  'pay',
-                merchantName:  'LIT21',
+                merchantName:  'Not replica', 
             });
 
             // 5. Open Modal with DYNAMIC amount
             MMPayApp.showPaymentModal({
-                amount: amountValue, // Using the variable here
-                orderId: 'ORD-' + new Date().getTime(),
-                callbackUrl: 'https://yoursite.com/confirmation' 
+                amount: amountValue,
+                orderId: 'NR-' + new Date().getTime(), // Changed prefix to NR (NotReplica)
+                callbackUrl: 'https://notreplica.com/confirmation' 
             }, (result) => {
                 
                 // Reset Button
@@ -196,8 +234,8 @@
 
                 if (result.success) {
                     console.log('Payment Successful');
-                    btn.innerText = "Paid Successfully!";
-                    btn.style.backgroundColor = "#10B981"; 
+                    btn.innerText = "Verified & Paid";
+                    btn.style.backgroundColor = "#10B981"; // Success Green
                 }
             });
         });
